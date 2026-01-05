@@ -1,0 +1,55 @@
+{
+  "name": "express-postgres-project",
+  "version": "1.0.0",
+  "description": "RESTful API for product management using Express and PostgreSQL",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "test": "node tests/setup-db.js && jest --detectOpenHandles --forceExit",
+    "test:watch": "jest --watch",
+    "test:coverage": "node tests/setup-db.js && jest --coverage --detectOpenHandles --forceExit",
+    "test:parallel": "node tests/setup-db.js && jest --maxWorkers=100% --detectOpenHandles --forceExit",
+    "db:create": "npx sequelize-cli db:create",
+    "db:drop": "npx sequelize-cli db:drop",
+    "db:migrate": "npx sequelize-cli db:migrate",
+    "db:migrate:undo": "npx sequelize-cli db:migrate:undo",
+    "db:migrate:undo:all": "npx sequelize-cli db:migrate:undo:all",
+    "db:seed": "npx sequelize-cli db:seed:all",
+    "db:seed:undo": "npx sequelize-cli db:seed:undo:all",
+    "db:reset": "npm run db:drop && npm run db:create && npm run db:migrate && npm run db:seed"
+  },
+  "keywords": [
+    "express",
+    "postgresql",
+    "rest-api",
+    "sequelize",
+    "product-management"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "morgan": "^1.10.1",
+    "multer": "^2.0.2",
+    "pg": "^8.16.3",
+    "sequelize": "^6.37.7",
+    "sequelize-cli": "^6.6.3"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/supertest": "^6.0.3",
+    "jest": "^30.2.0",
+    "nodemon": "^3.1.10",
+    "supertest": "^7.1.4"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm test:*)",
+      "Bash(psql:*)",
+      "Bash(NODE_ENV=test npm run db:migrate:*)",
+      "Bash(npm install:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(node -e:*)",
+      "Bash(PGPASSWORD=postgres psql:*)"
+    ]
+  }
+}
