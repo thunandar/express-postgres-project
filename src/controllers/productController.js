@@ -1,13 +1,16 @@
 const ProductService = require('../services/productService');
-const { getImageUrl, getImageUrls, deleteImageFile, deleteImageFiles } = require('../middleware/imageUpload');
+const { getImageUrl, processUploadedFiles, deleteImageFiles } = require('../middleware/imageUpload');
 
 // Helper function to handle multiple image uploads
-const handleImageUploads = (req) => {
+const handleImageUploads = async (req) => {
   if (!req.files || req.files.length === 0) {
     return [];
   }
 
-  return req.files.map((file, index) => ({
+  // Process files (upload to S3 in production, or use local files)
+  const processedFiles = await processUploadedFiles(req.files);
+
+  return processedFiles.map((file, index) => ({
     imageUrl: getImageUrl(req, file.filename),
     imageFilename: file.filename,
     isPrimary: index === 0, // First image is primary
@@ -16,10 +19,11 @@ const handleImageUploads = (req) => {
 };
 
 // Helper function to cleanup uploaded files on error
-const cleanupUploadedFiles = (req) => {
+const cleanupUploadedFiles = async (req) => {
   if (req.files && req.files.length > 0) {
-    const filenames = req.files.map(file => file.filename);
-    deleteImageFiles(filenames);
+    const processedFiles = await processUploadedFiles(req.files);
+    const filenames = processedFiles.map(file => file.filename);
+    await deleteImageFiles(filenames);
   }
 };
 
@@ -63,7 +67,7 @@ const productController = {
       const productData = req.body;
 
       // Prepare image data from uploaded files
-      const imageData = handleImageUploads(req);
+      const imageData = await handleImageUploads(req);
 
       // Create product with images
       const product = await ProductService.createProduct(productData, imageData);
@@ -75,7 +79,7 @@ const productController = {
       });
     } catch (error) {
       // Clean up uploaded files if there was an error
-      cleanupUploadedFiles(req);
+      await cleanupUploadedFiles(req);
       next(error);
     }
   },
@@ -86,7 +90,7 @@ const productController = {
       const productData = req.body;
 
       // Prepare new image data if files uploaded
-      const imageData = handleImageUploads(req);
+      const imageData = await handleImageUploads(req);
 
       // Update product with new images
       const product = await ProductService.updateProduct(id, productData, imageData);
@@ -98,7 +102,7 @@ const productController = {
       });
     } catch (error) {
       // Clean up uploaded files if there was an error
-      cleanupUploadedFiles(req);
+      await cleanupUploadedFiles(req);
       next(error);
     }
   },
