@@ -1,8 +1,16 @@
 # Express PostgreSQL Product Management API
 
-![CI/CD](https://github.com/YOUR_USERNAME/express-postgres-project/workflows/CI/CD%20Pipeline/badge.svg)
+![CI/CD](https://github.com/thunandar/express-postgres-project/workflows/CI/CD%20Pipeline/badge.svg)
 
-RESTful API for product management with authentication, RBAC, and Docker support.
+Production-ready RESTful API with 100% test coverage, demonstrating enterprise-level architecture, comprehensive testing, and DevOps best practices.
+
+## Highlights
+
+- 🎯 **100% Test Coverage** - Comprehensive unit and integration tests
+- 🔒 **Security** - JWT authentication, bcrypt password hashing, input validation
+- 🐳 **Docker Ready** - Containerized with docker-compose for easy deployment
+- ⚡ **CI/CD Pipeline** - Automated testing and deployment with GitHub Actions
+- 📊 **Production Features** - Error handling, logging, database migrations, seeding
 
 ## Features
 
